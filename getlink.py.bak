@@ -104,10 +104,10 @@ def save_links_to_file(url, file_path):
         print(f"Có lỗi xảy ra: {e}")
 
 # Sử dụng hàm
-url1 = "https://tintuc21.giaodienwebmau.com/" # Thay thế "https://example.com" bằng URL bạn muốn
+url = "https://tintuc21.giaodienwebmau.com/" # Thay thế "https://example.com" bằng URL bạn muốn
 
 file_path = "links.txt"
 wp_url = url  # URL của WordPress
-save_links_to_file(url1, file_path)
+save_links_to_file(url, file_path)
 fetch_data_and_post(url, file_path, wp_url, user_name, password)
 
