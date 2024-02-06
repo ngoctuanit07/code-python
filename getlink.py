@@ -76,7 +76,7 @@ def fetch_data_and_post(url, file_path, wp_url, user_name, password):
                     soup = BeautifulSoup(response.text, 'html.parser')
                     title = soup.find('h1', class_='entry-title').text.strip() if soup.find('h1', class_='entry-title') else 'No Title'
                     content_html = str(soup.find('div', id='content')) if soup.find('div', id='content') else 'No Content'
-                    post_to_wp(wp_url, token, title, content_html, 2)
+                    post_to_wp(wp_url, token, title, content_html, 1)
             except Exception as e:
                 print(f"Không thể tải dữ liệu từ '{link}': {e}")
 
