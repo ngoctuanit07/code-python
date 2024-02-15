@@ -76,7 +76,7 @@ def fetch_data_and_post(url, file_path, wp_url, user_name, password):
                     soup = BeautifulSoup(response.text, 'html.parser')
                     title = soup.find('h1', class_='entry-title').text.strip() if soup.find('h1', class_='entry-title') else 'No Title'
                     content_html = str(soup.find('div', id='content')) if soup.find('div', id='content') else 'No Content'
-                    post_to_wp(wp_url, token, title, content_html, 1)
+                    post_to_wp(wp_url, token, title, content_html, 5)
             except Exception as e:
                 print(f"Không thể tải dữ liệu từ '{link}': {e}")
 
@@ -104,7 +104,7 @@ def save_links_to_file(url, file_path):
         print(f"Có lỗi xảy ra: {e}")
 
 # Sử dụng hàm
-url1 = "https://tintuc21.giaodienwebmau.com/" # Thay thế "https://example.com" bằng URL bạn muốn
+url1 = "https://thuonghieu.giaodienwebmau.com/" # Thay thế "https://example.com" bằng URL bạn muốn
 
 file_path = "links.txt"
 wp_url = url  # URL của WordPress
