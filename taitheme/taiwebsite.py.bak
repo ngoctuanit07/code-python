@@ -63,28 +63,39 @@ def download_website_content(url):
             soup = BeautifulSoup(html_content, 'html.parser')
             save_html_content(html_content, os.path.join(base_folder, 'index.html'))
 
+            # Download stylesheets
             for link in soup.find_all('link', {'rel': 'stylesheet'}):
                 css_url = link.get('href')
                 if css_url and "fonts.googleapis.com" not in css_url:
                     absolute_css_url = make_absolute_url(url, css_url)
                     download_file(absolute_css_url, base_folder)
 
+            # Download JavaScript files
             for script in soup.find_all('script'):
                 js_url = script.get('src')
                 if js_url:
                     absolute_js_url = make_absolute_url(url, js_url)
                     download_file(absolute_js_url, base_folder)
 
+            # Download images
             for img in soup.find_all('img'):
                 img_url = img.get('src')
                 if img_url:
                     absolute_img_url = make_absolute_url(url, img_url)
                     download_file(absolute_img_url, base_folder)
+
+            # NEW: Download images from data-background attributes
+            for element in soup.find_all(True, {'data-background': True}):
+                bg_url = element['data-background']
+                if bg_url:
+                    absolute_bg_url = make_absolute_url(url, bg_url)
+                    download_file(absolute_bg_url, base_folder)
         else:
             print(f'Failed to load website {url}. Status code: {response.status_code}')
     except Exception as e:
         print(f'Error loading website {url}. Error: {e}')
 
+
 if __name__ == '__main__':
-    website_url = 'https://nouthemes.net/html/bakery/index.html'
+    website_url = 'https://www.shein.com.vn/affiliate-a-427.html'
     download_website_content(website_url)
