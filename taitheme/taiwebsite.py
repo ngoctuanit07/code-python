@@ -97,5 +97,5 @@ def download_website_content(url):
 
 
 if __name__ == '__main__':
-    website_url = 'https://www.wrraptheme.com/templates/luno/crm/index.html'
+    website_url = 'https://pixydrops.com/laboix-html/index-3-one-page.html'
     download_website_content(website_url)

@@ -25,8 +25,8 @@ def download_image(image_url, save_path):
         return False
 
 # Sử dụng hàm
-image_url = "https://pixydrops.com/laboix-html/assets/images/backgrounds/slider-3-3.jpg"  # Thay thế URL của bạn ở đây
-save_path = "slider-3-3.jpg"  # Thay thế đường dẫn lưu ảnh của bạn ở đây
+image_url = "https://cdn.tuoitre.vn/thumb_w/730/471584752817336320/2023/12/28/base64-17037468794361661310140.jpeg"  # Thay thế URL của bạn ở đây
+save_path = "base64-17037468794361661310140.jpeg"  # Thay thế đường dẫn lưu ảnh của bạn ở đây
 if download_image(image_url, save_path):
     print("Image downloaded successfully.")
 else:
