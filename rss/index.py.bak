@@ -1,0 +1,32 @@
+import requests
+from bs4 import BeautifulSoup
+
+def crawl_rss_and_export_to_txt(rss_url, output_file):
+    try:
+        # Lấy dữ liệu từ liên kết RSS
+        response = requests.get(rss_url)
+        soup = BeautifulSoup(response.content, 'xml')
+
+        # Tìm tất cả các mục trong RSS (ví dụ: <item>)
+        items = soup.find_all('item')
+
+        # Mở tệp văn bản để ghi dữ liệu
+        with open(output_file, 'w', encoding='utf-8') as file:
+            for item in items:
+                title = item.find('title').text
+                link = item.find('link').text
+                description = item.find('description').text
+
+                # Ghi thông tin vào tệp văn bản
+                file.write(f"Tiêu đề: {title}\n")
+                file.write(f"Liên kết: {link}\n")
+                file.write(f"Mô tả: {description}\n\n")
+
+        print(f"Dữ liệu đã được ghi vào tệp {output_file}")
+    except Exception as e:
+        print(f"Lỗi: {e}")
+
+# Sử dụng ví dụ:
+rss_link = "https://example.com/rss"
+output_txt_file = "output.txt"
+crawl_rss_and_export_to_txt(rss_link, output_txt_file)
