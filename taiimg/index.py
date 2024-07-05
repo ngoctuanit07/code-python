@@ -21,7 +21,7 @@ def download_image(url, save_path):
         print(f"Không thể tải hình ảnh: {e}")
 
 # Ví dụ sử dụng
-image_url = "https://news.nippongenetics.eu/hubfs/shutterstock_486809677-2.jpg"
+image_url = "https://www.agilent.com/cs/agilent_images/icon-agilent-logo-white-white-2x.png"
 save_directory = "./images"  # Đường dẫn thư mục để lưu hình ảnh
 
 # Tạo thư mục nếu chưa tồn tại
