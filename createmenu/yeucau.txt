@@ -1,0 +1,4 @@
+1) cai plugin JWT Authentication for WP REST API
+2) cau hinh trong wp-config.php
+define('JWT_AUTH_SECRET_KEY', 'your-top-secret-key');
+define('JWT_AUTH_CORS_ENABLE', true);
