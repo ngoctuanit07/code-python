@@ -9,8 +9,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # JWT token obtained from authentication
-token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL25ndXllbm5nb2N0dWFuMDcuY29tIiwiaWF0IjoxNzIxOTg0MDM2LCJuYmYiOjE3MjE5ODQwMzYsImV4cCI6MTcyMjU4ODgzNiwiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiMSJ9fX0.0xQEnLNrz86Z-JtG-nbAuej60rrO7nOCfZFgJdLlh50'
-base_url = 'https://nguyenngoctuan07.com/wp-json'
+token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2hhbmduaGF0YmFuLnZuIiwiaWF0IjoxNzIyMDQyMTkzLCJuYmYiOjE3MjIwNDIxOTMsImV4cCI6MTcyMjY0Njk5MywiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiMSJ9fX0.0YUZ2amYgnypijSAdZG-8k0Qgr1TGC_OMIHlpT9uDEQ'
+base_url = 'https://hangnhatban.vn/wp-json'
 
 # Thiết lập mã hóa UTF-8 cho stdout
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -37,25 +37,26 @@ def check_endpoints():
             sys.exit(1)
     logger.info("All required endpoints are available.")
 
+def get_subcategories(parent_id):
+    url = f"{base_url}/wc/v3/products/categories"
+    params = {'parent': parent_id, 'per_page': 100}
+    response = session.get(url, params=params)
+    
+    if response.status_code != 200:
+        logger.error(f"Error: Received status code {response.status_code}")
+        return []
+
+    try:
+        subcategories = response.json()
+        for subcat in subcategories:
+            subcat['children'] = get_subcategories(subcat['id'])
+        return subcategories
+    except json.JSONDecodeError:
+        logger.error("Error: Failed to decode JSON response for subcategories")
+        logger.error(f"Response content: {response.text}")
+        return []
+
 def get_category_and_subcategories(cat_id):
-    def get_subcategories(parent_id):
-        url = f"{base_url}/wc/v3/products/categories?parent={parent_id}"
-        response = session.get(url)
-        
-        if response.status_code != 200:
-            logger.error(f"Error: Received status code {response.status_code}")
-            return []
-
-        try:
-            subcategories = response.json()
-            for subcat in subcategories:
-                subcat['children'] = get_subcategories(subcat['id'])
-            return subcategories
-        except json.JSONDecodeError:
-            logger.error("Error: Failed to decode JSON response for subcategories")
-            logger.error(f"Response content: {response.text}")
-            return []
-
     url = f"{base_url}/wc/v3/products/categories/{cat_id}"
     response = session.get(url)
     
@@ -162,14 +163,14 @@ def add_menu_items(menu_id, subcategories, parent_id=0):
         else:
             logger.info(f"Added menu item: {subcategory['name']}")
             
-        # If this subcategory has children, add them recursively
-        if subcategory['children']:
-            try:
-                new_parent_id = response.json()['id']
-                add_menu_items(menu_id, subcategory['children'], new_parent_id)
-            except json.JSONDecodeError:
-                logger.error("Error: Failed to decode JSON response while adding child menu item")
-                logger.error(f"Response content: {response.text}")
+            # If this subcategory has children, add them recursively
+            if subcategory['children']:
+                try:
+                    new_parent_id = response.json()['id']
+                    add_menu_items(menu_id, subcategory['children'], new_parent_id)
+                except json.JSONDecodeError:
+                    logger.error("Error: Failed to decode JSON response while adding child menu item")
+                    logger.error(f"Response content: {response.text}")
 
 if __name__ == "__main__":
     check_auth()

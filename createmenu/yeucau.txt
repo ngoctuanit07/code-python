@@ -2,3 +2,6 @@
 2) cau hinh trong wp-config.php
 define('JWT_AUTH_SECRET_KEY', 'your-top-secret-key');
 define('JWT_AUTH_CORS_ENABLE', true);
+
+
+https://nguyenngoctuan07.com/wp-json/jwt-auth/v1/token
