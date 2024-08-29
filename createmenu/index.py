@@ -172,12 +172,45 @@ def add_menu_items(menu_id, subcategories, parent_id=0):
                     logger.error("Error: Failed to decode JSON response while adding child menu item")
                     logger.error(f"Response content: {response.text}")
 
+def get_parent_categories():
+    url = f"{base_url}/wc/v3/products/categories"
+    params = {'parent': 0, 'per_page': 100}
+    response = session.get(url, params=params)
+    
+    if response.status_code != 200:
+        logger.error(f"Error: Received status code {response.status_code}")
+        return []
+
+    try:
+        parent_categories = response.json()
+        for parent_cat in parent_categories:
+            parent_cat['subcategories'] = get_subcategories(parent_cat['id'])
+        logger.info(f"Parent categories retrieved: {json.dumps(parent_categories, ensure_ascii=False, indent=4)}")
+        return parent_categories
+    except json.JSONDecodeError:
+        logger.error("Error: Failed to decode JSON response for parent categories")
+        logger.error(f"Response content: {response.text}")
+        return []
+
 if __name__ == "__main__":
     check_auth()
     check_endpoints()
-    cat_id = input("Enter the category ID: ")
-    category = get_category_and_subcategories(cat_id)
-    if category:
-        create_menu(category)
+    
+    # Lựa chọn chức năng
+    choice = input("Enter '1' to create menu or '2' to get parent categories: ")
+    
+    if choice == '1':
+        cat_id = input("Enter the category ID: ")
+        category = get_category_and_subcategories(cat_id)
+        if category:
+            create_menu(category)
+        else:
+            logger.warning("Category not found. Menu not created.")
+    elif choice == '2':
+        parent_categories = get_parent_categories()
+        if parent_categories:
+            logger.info(f"Parent categories retrieved successfully.")
+        else:
+            logger.warning("No parent categories found.")
     else:
-        logger.warning("Category not found. Menu not created.")
+        logger.error("Invalid choice. Exiting.")
