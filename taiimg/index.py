@@ -1,6 +1,10 @@
 import requests
 import os
+import sys
+import codecs
 
+# Thay đổi mã hóa đầu ra của hệ thống thành UTF-8
+sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 def download_image(url, save_path):
     try:
         # Gửi yêu cầu HTTP GET để tải hình ảnh từ URL
@@ -21,7 +25,7 @@ def download_image(url, save_path):
         print(f"Không thể tải hình ảnh: {e}")
 
 # Ví dụ sử dụng
-image_url = "https://www.agilent.com/cs/agilent_images/icon-agilent-logo-white-white-2x.png"
+image_url = "https://insangtaotre.vn/wp-content/uploads/2021/08/b5cf811393c6ae436b14456d7a7eefb6.jpg"
 save_directory = "./images"  # Đường dẫn thư mục để lưu hình ảnh
 
 # Tạo thư mục nếu chưa tồn tại

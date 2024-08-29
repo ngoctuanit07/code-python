@@ -97,5 +97,5 @@ def download_website_content(url):
 
 
 if __name__ == '__main__':
-    website_url = 'https://websmirno.site/medin/html/medol-html/index.html'
+    website_url = 'https://miranda.botble.com/'
     download_website_content(website_url)

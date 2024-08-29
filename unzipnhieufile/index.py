@@ -3,8 +3,8 @@ import zipfile
 import re
 
 # Đường dẫn tới folder chứa các file zip
-input_folder = '/home/ellyluxury/htdocs/ellyluxury.com/wp-content'
-output_folder = '/home/ellyluxury/htdocs/ellyluxury.com/wp-content'
+input_folder = '/home/ualuxurystore/htdocs/ualuxurystore.com/wp-content'
+output_folder = '/home/ualuxurystore/htdocs/ualuxurystore.com/wp-content'
 
 # Tạo output_folder nếu chưa tồn tại
 if not os.path.exists(output_folder):
