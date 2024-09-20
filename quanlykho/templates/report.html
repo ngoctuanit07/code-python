@@ -1,0 +1,76 @@
+<!-- templates/report.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Báo Cáo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <!-- Thêm jQuery và Datepicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>Báo Cáo Nhập Xuất và Tồn Kho</h2>
+    <hr>
+    
+    <!-- Form Lọc Báo Cáo -->
+    <form method="GET" action="{{ url_for('report') }}" class="form-inline mb-4">
+        <div class="form-group mr-2">
+            <label for="product_id" class="mr-2">Sản Phẩm</label>
+            <select class="form-control" id="product_id" name="product_id">
+                <option value="">-- Tất Cả Sản Phẩm --</option>
+                {% for product in products %}
+                    <option value="{{ product.id }}" {% if selected_product == product.id %}selected{% endif %}>{{ product.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group mr-2">
+            <label for="start_date" class="mr-2">Từ Ngày</label>
+            <input type="text" class="form-control datepicker" id="start_date" name="start_date" placeholder="YYYY-MM-DD" value="{{ start_date }}">
+        </div>
+        <div class="form-group mr-2">
+            <label for="end_date" class="mr-2">Đến Ngày</label>
+            <input type="text" class="form-control datepicker" id="end_date" name="end_date" placeholder="YYYY-MM-DD" value="{{ end_date }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Lọc</button>
+        <a href="{{ url_for('report') }}" class="btn btn-secondary ml-2">Reset</a>
+    </form>
+    
+    <!-- Bảng Báo Cáo -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Sản Phẩm</th>
+                <th>Tổng Nhập</th>
+                <th>Tổng Xuất</th>
+                <th>Tồn Kho</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in report_data %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.total_import }}</td>
+                    <td>{{ item.total_export }}</td>
+                    <td>{{ item.inventory }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">Quay Lại</a>
+</div>
+
+<!-- Thêm jQuery và Datepicker JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true
+        });
+    });
+</script>
+</body>
+</html>

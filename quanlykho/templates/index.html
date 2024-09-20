@@ -1,0 +1,62 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quản Lý Kho</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Quản Lý Kho</h1>
+    <hr>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    
+    <!-- Thanh Tìm Kiếm -->
+    <form method="GET" action="{{ url_for('search') }}" class="form-inline mb-4">
+        <input type="text" name="query" class="form-control mr-2" placeholder="Tìm kiếm sản phẩm..." required>
+        <button type="submit" class="btn btn-outline-success">Tìm Kiếm</button>
+    </form>
+    
+    <a href="{{ url_for('import_product') }}" class="btn btn-primary">Nhập Kho</a>
+    <a href="{{ url_for('export_product') }}" class="btn btn-warning">Xuất Kho</a>
+    <a href="{{ url_for('report') }}" class="btn btn-info">Báo Cáo</a>
+    <a href="/admin/" class="btn btn-secondary">Quản Trị</a>
+    
+    <!-- Kết Quả Tìm Kiếm -->
+    {% if products %}
+        <h3 class="mt-4">Kết Quả Tìm Kiếm</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Tên Sản Phẩm</th>
+                    <th>Mô Tả</th>
+                    <th>Giá Đơn Vị</th>
+                    <th>Tồn Kho</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.description }}</td>
+                        <td>{{ product.unit_price }}</td>
+                        <td>
+                            {% set total_import = product.imports|map(attribute='quantity')|sum %}
+                            {% set total_export = product.exports|map(attribute='quantity')|sum %}
+                            {{ total_import - total_export }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+</body>
+</html>

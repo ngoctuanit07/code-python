@@ -1,0 +1,27 @@
+<!-- templates/admin/import_product.html -->
+
+{% extends 'admin/master.html' %}
+{% block body %}
+    <div class="container mt-4">
+        <h3>Import Sản Phẩm từ File Excel</h3>
+        <hr>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Chọn File Excel (.xlsx, .xls)</label>
+                <input type="file" class="form-control-file" id="file" name="file" accept=".xlsx,.xls" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Import</button>
+            <a href="{{ url_for('product.index_view') }}" class="btn btn-secondary">Quay Lại</a>
+        </form>
+        <hr>
+        <h5>Định Dạng File Excel</h5>
+        <p>File Excel cần có các cột sau:</p>
+        <ul>
+            <li><strong>name</strong>: Tên sản phẩm</li>
+            <li><strong>description</strong>: Mô tả sản phẩm</li>
+            <li><strong>unit_price</strong>: Giá đơn vị (số thập phân)</li>
+        </ul>
+        <p>Ví dụ:</p>
+        <img src="{{ url_for('static', filename='import_example.png') }}" alt="Ví dụ File Excel" class="img-fluid">
+    </div>
+{% endblock %}
