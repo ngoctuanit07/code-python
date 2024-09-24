@@ -25,7 +25,7 @@ def download_image(url, save_path):
         print(f"Không thể tải hình ảnh: {e}")
 
 # Ví dụ sử dụng
-image_url = "https://insangtaotre.vn/wp-content/uploads/2021/08/b5cf811393c6ae436b14456d7a7eefb6.jpg"
+image_url = "https://xuonginhanoi.vn/files/hop-dung-qua-tet-nap-am-duong.jpg"
 save_directory = "./images"  # Đường dẫn thư mục để lưu hình ảnh
 
 # Tạo thư mục nếu chưa tồn tại
