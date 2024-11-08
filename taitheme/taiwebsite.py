@@ -97,5 +97,5 @@ def download_website_content(url):
 
 
 if __name__ == '__main__':
-    website_url = 'https://miranda.botble.com/'
+    website_url = 'https://html.tf.dreamitsolution.net/mediic1/'
     download_website_content(website_url)

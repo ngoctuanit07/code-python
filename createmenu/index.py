@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # JWT token obtained from authentication
-token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2hhbmduaGF0YmFuLnZuIiwiaWF0IjoxNzIyMDQyMTkzLCJuYmYiOjE3MjIwNDIxOTMsImV4cCI6MTcyMjY0Njk5MywiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiMSJ9fX0.0YUZ2amYgnypijSAdZG-8k0Qgr1TGC_OMIHlpT9uDEQ'
+token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2hhbmduaGF0YmFuLnZuIiwiaWF0IjoxNzI3OTE2NjMzLCJuYmYiOjE3Mjc5MTY2MzMsImV4cCI6MTcyODUyMTQzMywiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiMSJ9fX0.nnU_MVwV6yk42TseK4z59MqHuugZHCMuPZTu_blvjsE'
 base_url = 'https://hangnhatban.vn/wp-json'
 
 # Thiết lập mã hóa UTF-8 cho stdout
@@ -36,6 +36,23 @@ def check_endpoints():
             logger.error(f"Endpoint {endpoint} not found. Please check your API or installed plugins.")
             sys.exit(1)
     logger.info("All required endpoints are available.")
+
+def get_all_categories():
+    url = f"{base_url}/wc/v3/products/categories"
+    params = {'per_page': 100}
+    response = session.get(url, params=params)
+    
+    if response.status_code != 200:
+        logger.error(f"Error: Received status code {response.status_code}")
+        return []
+
+    try:
+        categories = response.json()
+        return categories
+    except json.JSONDecodeError:
+        logger.error("Error: Failed to decode JSON response for categories")
+        logger.error(f"Response content: {response.text}")
+        return []
 
 def get_subcategories(parent_id):
     url = f"{base_url}/wc/v3/products/categories"
@@ -172,32 +189,32 @@ def add_menu_items(menu_id, subcategories, parent_id=0):
                     logger.error("Error: Failed to decode JSON response while adding child menu item")
                     logger.error(f"Response content: {response.text}")
 
-def get_parent_categories():
-    url = f"{base_url}/wc/v3/products/categories"
-    params = {'parent': 0, 'per_page': 100}
-    response = session.get(url, params=params)
+def delete_level_4_categories():
+    categories = get_all_categories()
     
-    if response.status_code != 200:
-        logger.error(f"Error: Received status code {response.status_code}")
-        return []
+    if not categories:
+        logger.warning("No categories found.")
+        return
 
-    try:
-        parent_categories = response.json()
-        for parent_cat in parent_categories:
-            parent_cat['subcategories'] = get_subcategories(parent_cat['id'])
-        logger.info(f"Parent categories retrieved: {json.dumps(parent_categories, ensure_ascii=False, indent=4)}")
-        return parent_categories
-    except json.JSONDecodeError:
-        logger.error("Error: Failed to decode JSON response for parent categories")
-        logger.error(f"Response content: {response.text}")
-        return []
+    # Duyệt qua tất cả các danh mục để tìm danh mục cấp 4
+    for category in categories:
+        if category['parent'] != 0:
+            continue
+
+        subcategories = get_subcategories(category['id'])
+        for subcategory in subcategories:
+            if subcategory['children']:
+                for child in subcategory['children']:
+                    if child['children']:
+                        for level_4_category in child['children']:
+                            delete_category(level_4_category['id'])
 
 if __name__ == "__main__":
     check_auth()
     check_endpoints()
     
     # Lựa chọn chức năng
-    choice = input("Enter '1' to create menu or '2' to get parent categories: ")
+    choice = input("Enter '1' to create menu, '2' to get parent categories, or '3' to delete level 4 categories: ")
     
     if choice == '1':
         cat_id = input("Enter the category ID: ")
@@ -212,5 +229,7 @@ if __name__ == "__main__":
             logger.info(f"Parent categories retrieved successfully.")
         else:
             logger.warning("No parent categories found.")
+    elif choice == '3':
+        delete_level_4_categories()
     else:
         logger.error("Invalid choice. Exiting.")
