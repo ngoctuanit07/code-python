@@ -9,11 +9,11 @@ class TokenBalance:
     chain: str
     symbol: str
     name: str
-    contract_address: Optional[str]  # None for native coin (e.g., ETH/BTC/TRX)
+    contract_address: Optional[str]
     decimals: int
-    amount: float                    # human-readable units
-    quote_rate: Optional[float]      # price per unit in USD if available
-    quote: Optional[float]           # total value in USD if available
+    amount: float
+    quote_rate: Optional[float]
+    quote: Optional[float]
     logo_url: Optional[str] = None
 
 
@@ -21,12 +21,13 @@ class TokenBalance:
 class TxRecord:
     chain: str
     tx_hash: str
-    timestamp: Optional[int]  # unix epoch ms or s depending on provider
+    timestamp: Optional[int]  # unix epoch (s/ms) hoặc ISO tuỳ provider
     from_address: Optional[str]
     to_address: Optional[str]
-    amount: Optional[float]           # human-readable if known
-    token_symbol: Optional[str]       # e.g. ETH, USDC, TRX, ...
-    contract_address: Optional[str]   # token address if applicable
+    amount: Optional[float]           # số tiền giao dịch (đơn vị human)
+    token_symbol: Optional[str]       # ETH/BNB/MATIC/BTC/TRX...
+    contract_address: Optional[str]
+    direction: Optional[str] = None   # 'out' | 'in' | None
 
 
 @dataclass(frozen=True)

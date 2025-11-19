@@ -21,6 +21,7 @@ from wallet_tool.utils import detect_chain, is_btc_address, is_evm_address, is_t
 console = Console()
 
 
+# ----------------------------- helpers ---------------------------------
 def _pick_provider(chain: str, provider: Optional[str]):
     c = chain.lower()
     if c in {"btc", "bitcoin"}:
@@ -52,14 +53,30 @@ def _export_csv(rep: WalletReport, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["chain", "symbol", "name", "contract_address", "decimals", "amount", "quote_rate_usd", "quote_usd"])
+        w.writerow(
+            ["chain", "symbol", "name", "contract_address", "decimals", "amount", "quote_rate_usd", "quote_usd"]
+        )
         for i in rep.items:
-            w.writerow([
-                i.chain, i.symbol, i.name, i.contract_address or "", i.decimals,
-                f"{i.amount:.18f}",
-                "" if i.quote_rate is None else i.quote_rate,
-                "" if i.quote is None else i.quote,
-            ])
+            w.writerow(
+                [
+                    i.chain,
+                    i.symbol,
+                    i.name,
+                    i.contract_address or "",
+                    i.decimals,
+                    f"{i.amount:.18f}",
+                    "" if i.quote_rate is None else i.quote_rate,
+                    "" if i.quote is None else i.quote,
+                ]
+            )
+
+
+# format số tránh scientific notation, cắt 0 dư
+def human_amount(val: float | None, max_decimals: int = 18) -> str:
+    if val is None:
+        return "-"
+    s = f"{val:.{max_decimals}f}".rstrip("0").rstrip(".")
+    return s or "0"
 
 
 def _print_report(rep: WalletReport, as_json: bool, show_count: bool, show_txs: bool):
@@ -72,23 +89,36 @@ def _print_report(rep: WalletReport, as_json: bool, show_count: bool, show_txs: 
             "total_usd": rep.total_usd(),
             "items": [
                 {
-                    "symbol": i.symbol, "name": i.name, "contract_address": i.contract_address,
-                    "decimals": i.decimals, "amount": i.amount,
-                    "quote_rate": i.quote_rate, "quote": i.quote,
-                } for i in rep.items
+                    "symbol": i.symbol,
+                    "name": i.name,
+                    "contract_address": i.contract_address,
+                    "decimals": i.decimals,
+                    "amount": i.amount,
+                    "quote_rate": i.quote_rate,
+                    "quote": i.quote,
+                }
+                for i in rep.items
             ],
             "txs": [
                 {
-                    "tx_hash": t.tx_hash, "timestamp": t.timestamp,
-                    "from": t.from_address, "to": t.to_address,
-                    "amount": t.amount, "token_symbol": t.token_symbol,
+                    "tx_hash": t.tx_hash,
+                    "timestamp": t.timestamp,
+                    "from": t.from_address,
+                    "to": t.to_address,
+                    "amount": t.amount,  # numeric để client tùy format
+                    "token_symbol": t.token_symbol,
                     "contract_address": t.contract_address,
-                } for t in rep.txs
-            ] if show_txs else [],
+                    "direction": t.direction,
+                }
+                for t in rep.txs
+            ]
+            if show_txs
+            else [],
         }
         console.print_json(data=payload)
         return
 
+    # Balances table
     table = Table(title=f"Wallet {rep.address} on {rep.chain}")
     table.add_column("Symbol")
     table.add_column("Name")
@@ -97,7 +127,8 @@ def _print_report(rep: WalletReport, as_json: bool, show_count: bool, show_txs: 
     table.add_column("USD Total", justify="right")
     for i in sorted(rep.items, key=lambda x: (x.quote or 0), reverse=True):
         table.add_row(
-            i.symbol, i.name,
+            i.symbol,
+            i.name,
             f"{i.amount:,.8f}".rstrip("0").rstrip("."),
             f"{i.quote_rate:,.4f}" if i.quote_rate is not None else "-",
             f"{i.quote:,.2f}" if i.quote is not None else "-",
@@ -112,22 +143,25 @@ def _print_report(rep: WalletReport, as_json: bool, show_count: bool, show_txs: 
         table.caption = " | ".join(caption)
     console.print(table)
 
+    # Transactions table
     if show_txs and rep.txs:
         t2 = Table(title="Recent Transactions")
         t2.add_column("Time")
         t2.add_column("Hash")
+        t2.add_column("Dir")
         t2.add_column("From → To")
         t2.add_column("Amount")
         for t in rep.txs:
             hshort = (t.tx_hash[:10] + "…") if t.tx_hash else ""
             pair = f"{t.from_address or '?'} → {t.to_address or '?'}"
-            amt = f"{t.amount} {t.token_symbol}" if (t.amount is not None and t.token_symbol) else "-"
-            t2.add_row(str(t.timestamp or "-"), hshort, pair, amt)
+            amt = f"{human_amount(t.amount)} {t.token_symbol}" if (t.amount is not None and t.token_symbol) else "-"
+            t2.add_row(str(t.timestamp or "-"), hshort, t.direction or "-", pair, amt)
         console.print(t2)
 
 
+# ------------------------------ main -----------------------------------
 def main(argv: list[str] | None = None) -> int:
-    # Cho phép người dùng gõ thêm từ 'check' mà không lỗi
+    # Cho phép người dùng gõ thêm từ 'check' mà không lỗi (compat)
     argv = list(sys.argv[1:] if argv is None else argv)
     if argv and argv[0].lower() == "check":
         argv = argv[1:]
@@ -138,12 +172,18 @@ def main(argv: list[str] | None = None) -> int:
     )
     p.add_argument("-a", "--address", required=True, help="Wallet address")
     p.add_argument("-c", "--chain", default="auto", help="eth/bsc/polygon/... | btc | tron | auto (default)")
-    p.add_argument("-p", "--provider", choices=["covalent", "moralis"], default=None,
-                   help="EVM provider (default: covalent)")
+    p.add_argument(
+        "-p",
+        "--provider",
+        choices=["covalent", "moralis"],
+        default=None,
+        help="EVM provider (default: covalent)",
+    )
     p.add_argument("--json", action="store_true", help="Output JSON instead of table")
     p.add_argument("--count", action="store_true", help="Print only token count")
     p.add_argument("--export-csv", type=Path, help="Export balances to CSV")
-    p.add_argument("--history", "-H", type=int, help="Fetch last N transactions if supported")  # -H (không dùng -h)
+    # -h dành cho help của argparse, nên dùng -H cho history
+    p.add_argument("--history", "-H", type=int, help="Fetch last N transactions if supported")
 
     args = p.parse_args(argv)
 

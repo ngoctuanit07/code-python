@@ -7,9 +7,7 @@ from wallet_tool.providers.base import ProviderError
 
 
 class BlockstreamBTCProvider:
-    """
-    BTC via Blockstream public API (no API key).
-    """
+    """BTC via Blockstream public API (no API key)."""
 
     def __init__(self, base_url: str = "https://blockstream.info/api"):
         self.base_url = base_url.rstrip("/")
@@ -17,7 +15,7 @@ class BlockstreamBTCProvider:
     async def fetch(self, address: str, chain: str, history: int | None = None) -> WalletReport:
         if chain.lower() not in ("btc", "bitcoin"):
             raise ProviderError("BlockstreamBTCProvider only supports 'btc' chain.")
-        async with httpx.AsyncClient(timeout=20.0) as client:
+        async with httpx.AsyncClient(timeout=25.0) as client:
             # balance
             r = await client.get(f"{self.base_url}/address/{address}")
             if r.status_code != 200:
@@ -39,23 +37,37 @@ class BlockstreamBTCProvider:
                 quote_rate=None, quote=None, logo_url=None,
             )
 
-            # txs
             txs = []
             if history and history > 0:
                 rt = await client.get(f"{self.base_url}/address/{address}/txs")
                 if rt.status_code == 200:
-                    td = rt.json()
-                    for t in td[:history]:
+                    for t in (rt.json() or [])[:history]:
+                        txid = t.get("txid")
+                        # Tính net change cho địa chỉ trong tx này
+                        inputs_from_addr = 0
+                        for vin in t.get("vin", []):
+                            prev = vin.get("prevout") or {}
+                            if prev.get("scriptpubkey_address") == address:
+                                inputs_from_addr += prev.get("value", 0)
+                        outputs_to_addr = 0
+                        for vout in t.get("vout", []):
+                            if vout.get("scriptpubkey_address") == address:
+                                outputs_to_addr += vout.get("value", 0)
+                        net_sats = outputs_to_addr - inputs_from_addr
+                        direction = "in" if net_sats > 0 else ("out" if net_sats < 0 else None)
+                        amt_btc = abs(net_sats) / 1e8 if net_sats != 0 else None
+
                         txs.append(
                             TxRecord(
                                 chain="btc",
-                                tx_hash=t.get("txid"),
+                                tx_hash=txid,
                                 timestamp=t.get("status", {}).get("block_time"),
-                                from_address=None,  # khó xác định nhanh từ UTXO → để None
+                                from_address=None,
                                 to_address=None,
-                                amount=None,
-                                token_symbol="BTC",
+                                amount=amt_btc,
+                                token_symbol="BTC" if amt_btc is not None else None,
                                 contract_address=None,
+                                direction=direction,
                             )
                         )
 
