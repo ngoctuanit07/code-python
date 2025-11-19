@@ -1,0 +1,75 @@
+# === SOL WALLET EXPORT ===
+# Generated at: 2025-11-12T09:57:31.501257
+# CẢNH BÁO: Không chia sẻ file này. Private key/mnemonic là TỐI MẬT.
+
+Index: 0
+Address: 8AqbPrmSRXt9QhgLB57H9M11PqQGdLppLmd1ipEhee4L
+Mnemonic: tip middle ozone tail kiwi pull gold drip door foster reform answer
+DerivationPathHint: m/44'/501'/0'/0'
+PrivateKeyHex: 205fa33d294973b6bd178df2884f1019813c1e43732093948fd577564213f9a9
+SolanaSecretBase58(32B): 3BNdU8BPmwcQa2bXJozd7dH6mALBeQeXArozVNyEugm6
+------------------------------------------------------------
+Index: 1
+Address: DRALZdqwm5v7tsDFsNmkZifDoEcYPWdB79nakwavUYej
+Mnemonic: organ alone empower dune inject tube ahead click connect flat luggage soon
+DerivationPathHint: m/44'/501'/0'/0'
+PrivateKeyHex: 26297fcda7a648e74e8a035a065f1ff623a4e73b2adf6dca5889fe9a0ee8d627
+SolanaSecretBase58(32B): 3ZyCHnka28joNrXkgvwqK6DBvUF2pfo8dA5YLQSkBZst
+------------------------------------------------------------
+Index: 2
+Address: 9DQTTn3pYjh13P4NcK6VXifkh1YpyYcUmgKdveBgP1eU
+Mnemonic: dutch picnic carry purchase mad muffin thing pepper napkin feed muffin meadow
+DerivationPathHint: m/44'/501'/0'/0'
+PrivateKeyHex: 62efbbbc7d108094b86aa563204a6cca560746f5fc0ad5085d6d73f22a0f84bd
+SolanaSecretBase58(32B): 7fCybUg69zzyN82g1UfBZsXLjQq5ZL9rWz1ja2t17s64
+------------------------------------------------------------
+Index: 3
+Address: 2oZowCr4wcK4VeZhY9mHAXK5vLpqzNCzsR6KUGH35ipL
+Mnemonic: misery cruise tongue system away camera enroll outer artefact destroy vivid laugh
+DerivationPathHint: m/44'/501'/0'/0'
+PrivateKeyHex: 2e7a3823fe639a5d12cc4a2a8d2232a0de27d5b929e00260af6902f03d047be9
+SolanaSecretBase58(32B): 48Rr39LJL4zkmnXfqbMRkRRUJ6zip6cffHyBPKbdcSgQ
+------------------------------------------------------------
+Index: 4
+Address: 8PDKRZURDepK9teqP8dV4oqoNg9hKBqgvakGfo4LMGh
+Mnemonic: indoor dish awful visit emerge deer panic fatigue spoon worth nice random
+DerivationPathHint: m/44'/501'/0'/0'
+PrivateKeyHex: a0fe23437d9fda3a902a0add8beb5053f30b12e732cfd1eea3ebba08528c39a1
+SolanaSecretBase58(32B): BqSzZHMxNq5Z3WHGymJGN4o4bmdzQCxNuoPQDLzDs144
+------------------------------------------------------------
+Index: 5
+Address: 471uEeCBrcc5BfCb7oP3xyo2DvHMUdrnAqFN15emoFAi
+Mnemonic: finish close monitor want ethics speak great music another dinosaur leg either
+DerivationPathHint: m/44'/501'/0'/0'
+PrivateKeyHex: af954f6bf7be3c398858a5c39850f8e90b692dd8772ca99ac58d7b26ddb043c0
+SolanaSecretBase58(32B): CpQQ5LqXAkzjc1D3S7w7Zvq5iqmz49CC7h6mDZVAzPfM
+------------------------------------------------------------
+Index: 6
+Address: B5RcEZEzMpgw3HwMfv6CAVpgmQkWC7VzZVWbjJcaA7jP
+Mnemonic: guess crystal boss empty elite enroll smile crunch blood salad expire tape
+DerivationPathHint: m/44'/501'/0'/0'
+PrivateKeyHex: 44ca35e8359dcd0fb0b7cc8776c006f23817c22e58679e25ff4b91edfa8f2c5a
+SolanaSecretBase58(32B): 5dXZTB8CxMg1nd45QP3XqmHF6Rty9a4kSUrcZiz9D6VF
+------------------------------------------------------------
+Index: 7
+Address: BQHTMHa8uDk1twuAdnjcZ5gv91b2nD1YN3c3vgqphDi2
+Mnemonic: captain joke fee velvet slim post laptop patrol popular laundry say label
+DerivationPathHint: m/44'/501'/0'/0'
+PrivateKeyHex: 51c2b8bef53902e5f45e320dcd6a5d41be3821251d66e8c459bf1e31a4b0d4a6
+SolanaSecretBase58(32B): 6WAEi4nsVZbRsiCrbfEZzqQNZiPGvBAjdGFRsBKFTin1
+------------------------------------------------------------
+Index: 8
+Address: H8rSC6SYJ5B1iutPkt1BbksapQ9TpaCjth1szwfpryn8
+Mnemonic: also tip stage base host equip various connect crop avoid lawsuit broken
+DerivationPathHint: m/44'/501'/0'/0'
+PrivateKeyHex: bb1186ccb9f27e352bc3203fe4ef6826e4a4d22aae0b862eab99c6a4a49a53ba
+SolanaSecretBase58(32B): DbEjvZoHpyDVGMVML5NtWZGxtZnWk3KNRn3UtxrDU71B
+------------------------------------------------------------
+Index: 9
+Address: 8tAytZcwtgFA5mMKdiA8r7AEnWTg95hYy387ahA26fx6
+Mnemonic: tide fitness truck space enemy wise kingdom dad cry horror team talent
+DerivationPathHint: m/44'/501'/0'/0'
+PrivateKeyHex: 39fa0409acab3801dcbb7b12afb567c0d48ff0dd8ae766136cdad531e71b0bb4
+SolanaSecretBase58(32B): 4uKMXpXV4Xg4P6fhgee4jLt38DxfABpjdLscBcadGYQj
+------------------------------------------------------------
+

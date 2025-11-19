@@ -1,0 +1,75 @@
+# === DOGE WALLET EXPORT ===
+# Generated at: 2025-11-12T09:57:31.548072
+# CẢNH BÁO: Không chia sẻ file này. Private key/mnemonic là TỐI MẬT.
+
+Index: 0
+Address: DDudDMjtCWkw7w36cqTmaGskEE63HPpsip
+Mnemonic: diet system spray diary extra beach drink sponsor employ party amused vast
+DerivationPathHint: m/44'/3'/0'/0/i
+PrivateKeyHex: 911b41c5b0dd981ef0a203476c0db4a1c127564c6afaade777aac974847065b0
+PrivateKeyWIF: QTUhHKZei9N5y4G46ZozxdF7XPsA6ghrsE2Rziw5uQzZ1c4Xa6LR
+------------------------------------------------------------
+Index: 1
+Address: DJDWjaPWdjjsWZSsDQAR9G5CZ5LH9W1ADb
+Mnemonic: canyon stick thought bird fetch swear midnight forward hurdle tunnel inmate sketch
+DerivationPathHint: m/44'/3'/0'/0/i
+PrivateKeyHex: b0589960db79a83e6da114c7fa0724f5e5cf7a60b5937f5cdbd55994533e1988
+PrivateKeyWIF: QUXRNhDAm3F4Kw95bfEtVXP17ncSE6xu8RHXCMuqsK8SoaXy7HfR
+------------------------------------------------------------
+Index: 2
+Address: DH7jx45izEU7s8k5AoRMaedUmV2AXJ3yfk
+Mnemonic: flag illness praise tornado field chase intact enable kidney front case shuffle
+DerivationPathHint: m/44'/3'/0'/0/i
+PrivateKeyHex: 42e47c5edc63a9c534ee99fb9373ecc5d1a75514ce6860943682a039e90754a2
+PrivateKeyWIF: QQrf6WLA1N2ryWHfPZ4F3o25LBa2vxBo45xtD4ZSanHRAvwD1uAx
+------------------------------------------------------------
+Index: 3
+Address: DDmqAiASo4oKN4DCDqn2WmnWbr3kYxa4WV
+Mnemonic: replace clever trust real horn robust rescue food chief can midnight scheme
+DerivationPathHint: m/44'/3'/0'/0/i
+PrivateKeyHex: b7d88b7e24c81bf7d61dde08f317663c3a21e9ff79c483eb3af489c8b9fcdc38
+PrivateKeyWIF: QUmzw8bCYdADuVtcxW1FwPeED5bneN8az5WcmRpZxdS1ygE2gvDW
+------------------------------------------------------------
+Index: 4
+Address: D6tFLQK21qmrrahNgnh2MbWmHyPWyn1bMG
+Mnemonic: tissue shop describe bind kit bus physical talk provide spoil win february
+DerivationPathHint: m/44'/3'/0'/0/i
+PrivateKeyHex: 9cb437d92701e9472431f8353c55047966e5e97e9c9ac7e61822b8f02c08bc24
+PrivateKeyWIF: QTsEqT6roEG63QSre5qV1qAXpTRf62bfNWF2padYiTcm1j2uYuxd
+------------------------------------------------------------
+Index: 5
+Address: D8yfQSDQVCfQfqT54ro3X9r2ZrxyjqfY5G
+Mnemonic: manage defense range fall pulp ostrich body antique connect canal mask shaft
+DerivationPathHint: m/44'/3'/0'/0/i
+PrivateKeyHex: 8ba67e5a069290cba5bbe522b55fc56eaff1f768a45f0d879a3fc0c495b137cf
+PrivateKeyWIF: QTJ68sjGUxW33D2XG5AnVxTnx5fdSeV791GTjJBzZsTEayprQCk8
+------------------------------------------------------------
+Index: 6
+Address: D61hNJ2wPu6GVqrkPgz7KFL7qAqoaJvARN
+Mnemonic: earth turtle elbow believe warfare laptop illness dish imitate sell diagram marriage
+DerivationPathHint: m/44'/3'/0'/0/i
+PrivateKeyHex: dace69d932ed0c9b23156b906ef455b5176cff9c2cb58d98c41c02e5580d13ff
+PrivateKeyWIF: QVwxXWgDiPrrvuJyknD8LcpW1eq7HzMrdwL3ifgVv4ufeXc7Ss8P
+------------------------------------------------------------
+Index: 7
+Address: D8X9dpinHt7y2aNGiGvzzAxgYWk6earvbk
+Mnemonic: safe endless render teach tortoise beauty camp sketch situate enough sting shallow
+DerivationPathHint: m/44'/3'/0'/0/i
+PrivateKeyHex: 6c60f10239f44991ca88b695d8b9dcaa254cd5d0889eeff05ba43ac1a91e6bf1
+PrivateKeyWIF: QSFJRnqYECHsCkic1nkLQjz3K9HeddfUYYXTUDdbpu5neLoaRBNo
+------------------------------------------------------------
+Index: 8
+Address: D75CJD7E2LKq7g4T7fsgXji2FBm16enBAA
+Mnemonic: maple twenty robot sound menu trouble retreat color income man blame bitter
+DerivationPathHint: m/44'/3'/0'/0/i
+PrivateKeyHex: 0dab89940506889f939bf3b575c0f0ded8b5cf1b9c777ff46d42151db5c28caf
+PrivateKeyWIF: QP5CZV9LUopiQrY7ZekwcUpta2eFF21aupRtmVxWZj4ovoUqJmfs
+------------------------------------------------------------
+Index: 9
+Address: DL5eipKvNoZwAjGi6bXwYxuz4GMfEms6bo
+Mnemonic: place never mesh swing curious between all casino practice glance fringe carry
+DerivationPathHint: m/44'/3'/0'/0/i
+PrivateKeyHex: 459f59d3c5bb33a565bd86fa5995faf7fb0555b839b669738453753d4cf349cf
+PrivateKeyWIF: QQwxt5Q24QjwdmA9zBdN58ZU6j2cSLp4hPZ3mz7cHeWyftRo7ceo
+------------------------------------------------------------
+

@@ -1,0 +1,65 @@
+# === ETH WALLET EXPORT ===
+# Generated at: 2025-11-12T09:57:31.456248
+# CẢNH BÁO: Không chia sẻ file này. Private key/mnemonic là TỐI MẬT.
+
+Index: 0
+Address: 0x7Ff4373acb355d140C48cF2CbFa3D0e7D01Abdff
+Mnemonic: silent surface embrace churn roof sugar seek arena impose cereal fat title
+DerivationPathHint: m/44'/60'/0'/0/i
+PrivateKeyHex: 53c195d6fbec7ec1f1257d46e8e7b4f9c261c38aa32f2cfee38af3da3a5f197f
+------------------------------------------------------------
+Index: 1
+Address: 0x336B4db7A2E70FcD9561c01f318B2a689aa0DBD6
+Mnemonic: torch gym math tiny tennis black captain stool nice coin multiply sudden
+DerivationPathHint: m/44'/60'/0'/0/i
+PrivateKeyHex: 8f047f130e662b960e11d8446c532c41d40ad796563f72921f31990057a2df90
+------------------------------------------------------------
+Index: 2
+Address: 0x76358df4BEAdc5c9a54EF776159743603b9E7FBD
+Mnemonic: fault skin account alarm tide sweet notable trap actress oven fresh ready
+DerivationPathHint: m/44'/60'/0'/0/i
+PrivateKeyHex: 19f96a4c8b2e26b548fc8a81429c6a1e80ba8f4a3f9986fecc713674b2f94de2
+------------------------------------------------------------
+Index: 3
+Address: 0xB6Bc5F0A8301249b6c77689558EE78C534e4cA15
+Mnemonic: puppy boil globe govern syrup glimpse armed siege front pluck mixture home
+DerivationPathHint: m/44'/60'/0'/0/i
+PrivateKeyHex: 955e02bd4c0e02c861004f77176e9bfe9e30eaa7106a6d0f4f8f9528cff063f8
+------------------------------------------------------------
+Index: 4
+Address: 0x872eE144E4e682Efa9A32cB9a8A764A9cbaEc438
+Mnemonic: acquire alcohol square alpha pledge exile history oil head below valve position
+DerivationPathHint: m/44'/60'/0'/0/i
+PrivateKeyHex: 7336878b70b22c2c5f629ef882d921860bf6747463c9d06225b49034f438376c
+------------------------------------------------------------
+Index: 5
+Address: 0x5c0a6693F5B6B7e55ED52C4703dA29c2Ede7E9b6
+Mnemonic: slogan length weird ordinary already nephew stumble stereo turtle bacon cute enforce
+DerivationPathHint: m/44'/60'/0'/0/i
+PrivateKeyHex: 7d75a4209765a41f40e007240cd7770a1ffdd739a82e07d710c6f227aec19881
+------------------------------------------------------------
+Index: 6
+Address: 0x85B4e010c520843A336D16B3A3BA3E3147647675
+Mnemonic: crush hood noble disagree warm ridge bacon lock vast engine piano wish
+DerivationPathHint: m/44'/60'/0'/0/i
+PrivateKeyHex: 24ff120743aa1604ecad436914f44a16577f56bbd180ddf52878c51fafdc54b4
+------------------------------------------------------------
+Index: 7
+Address: 0x19EdD222dc37439aFC2F474f8927A0B6A7c4Fceb
+Mnemonic: book crumble meadow whisper sick twelve chimney swamp leopard piano spawn grocery
+DerivationPathHint: m/44'/60'/0'/0/i
+PrivateKeyHex: c171df60a43e86a624d40fe4faedb58b64b1c80f22afce015ea88a88e4663151
+------------------------------------------------------------
+Index: 8
+Address: 0xD2699F9d1991E656B0Ed8A3DD42716e491EA56AB
+Mnemonic: bachelor clip woman say pretty robust blue deposit coral valve stairs heavy
+DerivationPathHint: m/44'/60'/0'/0/i
+PrivateKeyHex: 05dcaf242e897cde0a60749592267e12e7076fd64d2fc2f676f8b501dee4ed2f
+------------------------------------------------------------
+Index: 9
+Address: 0xca29c82967A6000382E54E2e872723c22fA47c12
+Mnemonic: reason scheme toss cook tomorrow hawk wonder south auto hospital space clerk
+DerivationPathHint: m/44'/60'/0'/0/i
+PrivateKeyHex: f703ff8d7becc4d37c6b66953077b228428f43df2418e673072bed432d2a29ff
+------------------------------------------------------------
+

@@ -97,5 +97,5 @@ def download_website_content(url):
 
 
 if __name__ == '__main__':
-    website_url = 'https://html.tf.dreamitsolution.net/mediic1/'
+    website_url = 'https://pixner.net/zooshi/main/index2.html'
     download_website_content(website_url)

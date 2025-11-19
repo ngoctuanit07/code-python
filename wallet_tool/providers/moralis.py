@@ -1,0 +1,115 @@
+from __future__ import annotations
+
+import os
+from decimal import Decimal
+from typing import List, Optional
+
+import httpx
+
+from wallet_tool.models import TokenBalance, WalletReport, TxRecord
+from wallet_tool.providers.base import ProviderError
+
+MORALIS_CHAINS = {
+    "eth": "eth", "ethereum": "eth",
+    "bsc": "bsc", "binance": "bsc",
+    "polygon": "polygon", "matic": "polygon",
+    "arbitrum": "arbitrum",
+    "optimism": "optimism",
+    "avalanche": "avalanche", "avax": "avalanche",
+    "fantom": "fantom",
+    "base": "base",
+}
+
+
+class MoralisProvider:
+    """
+    EVM balances & (basic) tx list via Moralis Web3 API.
+    NOTE: endpoints dùng ở đây không trả USD quote.
+    Requires MORALIS_API_KEY.
+    """
+
+    def __init__(self, api_key: Optional[str] = None, base_url: str = "https://deep-index.moralis.io/api/v2.2"):
+        self.api_key = api_key or os.getenv("MORALIS_API_KEY")
+        if not self.api_key:
+            raise ProviderError("Missing MORALIS_API_KEY in environment.")
+        self.base_url = base_url.rstrip("/")
+
+    async def fetch(self, address: str, chain: str, history: int | None = None) -> WalletReport:
+        chain_param = MORALIS_CHAINS.get(chain.lower())
+        if not chain_param:
+            raise ProviderError(f"Unsupported chain '{chain}' for Moralis. Try one of: {sorted(MORALIS_CHAINS)}")
+
+        headers = {"X-API-Key": self.api_key}
+        async with httpx.AsyncClient(timeout=30.0, headers=headers) as client:
+            # Native
+            r_native = await client.get(f"{self.base_url}/{address}/balance", params={"chain": chain_param})
+            if r_native.status_code != 200:
+                raise ProviderError(f"Moralis native balance error {r_native.status_code}: {r_native.text}")
+            native = r_native.json()
+            # ERC20 list
+            r_erc20 = await client.get(f"{self.base_url}/{address}/erc20", params={"chain": chain_param})
+            if r_erc20.status_code != 200:
+                raise ProviderError(f"Moralis erc20 error {r_erc20.status_code}: {r_erc20.text}")
+            erc20 = r_erc20.json()
+
+            # txs (basic)
+            txs: List[TxRecord] = []
+            if history and history > 0:
+                r_txs = await client.get(f"{self.base_url}/{address}", params={"chain": chain_param, "limit": min(100, history)})
+                if r_txs.status_code == 200:
+                    td = r_txs.json().get("result", [])
+                    for t in td[:history]:
+                        txs.append(
+                            TxRecord(
+                                chain=chain.lower(),
+                                tx_hash=t.get("hash"),
+                                timestamp=t.get("block_timestamp"),
+                                from_address=t.get("from_address"),
+                                to_address=t.get("to_address"),
+                                amount=None,
+                                token_symbol=None,
+                                contract_address=None,
+                            )
+                        )
+
+        items: List[TokenBalance] = []
+        native_symbol = {
+            "eth": "ETH", "bsc": "BNB", "polygon": "MATIC",
+            "arbitrum": "ETH", "optimism": "ETH",
+            "avalanche": "AVAX", "fantom": "FTM", "base": "ETH",
+        }.get(chain_param, "NATIVE")
+
+        native_decimals = 18
+        wei = Decimal(native.get("balance") or "0")
+        native_amount = float(wei / (Decimal(10) ** native_decimals))
+        if native_amount != 0.0:
+            items.append(
+                TokenBalance(chain=chain.lower(), symbol=native_symbol, name=native_symbol,
+                             contract_address=None, decimals=native_decimals, amount=native_amount,
+                             quote_rate=None, quote=None, logo_url=None)
+            )
+
+        for t in erc20:
+            try:
+                decimals = int(t.get("decimals") or 0)
+                raw = Decimal(t.get("balance") or "0")
+                amount = float(raw / (Decimal(10) ** decimals) if decimals > 0 else raw)
+                if amount == 0.0:
+                    continue
+                items.append(
+                    TokenBalance(
+                        chain=chain.lower(),
+                        symbol=(t.get("symbol") or "").strip() or "?",
+                        name=(t.get("name") or "").strip() or (t.get("symbol") or "?"),
+                        contract_address=t.get("token_address"),
+                        decimals=decimals,
+                        amount=amount,
+                        quote_rate=None,
+                        quote=None,
+                        logo_url=None,
+                    )
+                )
+            except Exception:
+                continue
+
+        return WalletReport(address=address, chain=chain.lower(), items=items, txs=txs)
