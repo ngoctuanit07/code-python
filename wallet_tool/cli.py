@@ -15,6 +15,7 @@ from wallet_tool.providers.blockstream_btc import BlockstreamBTCProvider
 from wallet_tool.providers.covalent import CovalentProvider
 from wallet_tool.providers.moralis import MoralisProvider
 from wallet_tool.providers.tron import TronProvider
+from wallet_tool.providers.solana import SolanaProvider
 from wallet_tool.providers.base import ProviderError
 from wallet_tool.utils import detect_chain, is_btc_address, is_evm_address, is_tron_address
 
@@ -28,10 +29,12 @@ def _pick_provider(chain: str, provider: Optional[str]):
         return BlockstreamBTCProvider()
     if c == "tron":
         return TronProvider()
+    if c in {"sol", "solana"}:
+        return SolanaProvider()
     # EVM:
     if provider is None or provider.lower() == "covalent":
         return CovalentProvider()
-    if provider.lower() == "moralis":
+    if provider and provider.lower() == "moralis":
         return MoralisProvider()
     raise ProviderError(f"Unknown provider '{provider}'. Available: covalent, moralis")
 
@@ -44,6 +47,10 @@ def _validate_addr(addr: str, chain: str):
     elif c == "tron":
         if not is_tron_address(addr):
             raise ProviderError("Invalid Tron address format (Base58, starts with 'T').")
+    elif c in {"sol", "solana"}:
+        # Solana validation đã nằm trong detect_chain; ở đây chỉ kiểm tra tối thiểu độ dài base58
+        if not (32 <= len(addr) <= 44):
+            raise ProviderError("Invalid Solana address length (expected 32–44 base58 chars).")
     else:
         if not is_evm_address(addr):
             raise ProviderError("Invalid EVM address format (0x + 40 hex).")
@@ -105,7 +112,7 @@ def _print_report(rep: WalletReport, as_json: bool, show_count: bool, show_txs: 
                     "timestamp": t.timestamp,
                     "from": t.from_address,
                     "to": t.to_address,
-                    "amount": t.amount,  # numeric để client tùy format
+                    "amount": t.amount,  # numeric để client tuỳ format
                     "token_symbol": t.token_symbol,
                     "contract_address": t.contract_address,
                     "direction": t.direction,
@@ -171,7 +178,12 @@ def main(argv: list[str] | None = None) -> int:
         description="Check balances, tokens & recent transactions by address (auto chain-detect).",
     )
     p.add_argument("-a", "--address", required=True, help="Wallet address")
-    p.add_argument("-c", "--chain", default="auto", help="eth/bsc/polygon/... | btc | tron | auto (default)")
+    p.add_argument(
+        "-c",
+        "--chain",
+        default="auto",
+        help="eth/bsc/polygon/... | btc | tron | sol/solana | auto (default)",
+    )
     p.add_argument(
         "-p",
         "--provider",
@@ -194,7 +206,7 @@ def main(argv: list[str] | None = None) -> int:
             d = detect_chain(args.address)
             if not d:
                 raise ProviderError("Không nhận diện được chain từ địa chỉ. Hãy chỉ định --chain.")
-            chain = {"evm": "eth", "btc": "btc", "tron": "tron"}[d]
+            chain = {"evm": "eth", "btc": "btc", "tron": "tron", "solana": "solana"}[d]
             console.print(f"[cyan]Detected chain:[/cyan] {chain}")
 
         _validate_addr(args.address, chain)
